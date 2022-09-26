@@ -1,20 +1,27 @@
+import os
 import qrcode
+import random
 from tkinter import *
 from tkinter import ttk
 from PIL import Image
 
-
 def codeMaker():
-    
+    randomNumber = random.randint(0,1000)
     img = qrcode.make(user_input.get())
     type(img)  # qrcode.image.pil.PilImage
-    img.save("some_file.png")
+    if os.path.exists(saveAs):
+        img.save(saveName+str(randomNumber)+imgFormat)
+    else:
+        img.save(saveAs)
 
 def previewQR():
-    preImg = Image.open("some_file.png")
+    preImg = Image.open(saveAs)
     preImg.show()
     
-    
+imgFormat = ".png"
+saveName = str("qr_code")
+saveAs = str(saveName+imgFormat)
+
 root = Tk()
 
 frm = ttk.Frame(root, padding=10)
@@ -30,6 +37,3 @@ ttk.Button(frm, text="Create",command=codeMaker).grid(column=1,row=5)
 ttk.Button(frm,text="Quit",command=root.destroy).grid(column=1,row=6)
 
 root.mainloop()
-
-
-
